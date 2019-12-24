@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DemoMVP</string>
+    <string name="button_increment">++</string>
+</resources>
