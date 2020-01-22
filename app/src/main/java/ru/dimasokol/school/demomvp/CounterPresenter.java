@@ -1,10 +1,13 @@
 package ru.dimasokol.school.demomvp;
 
+import androidx.annotation.NonNull;
+
 public class CounterPresenter extends BasePresenter<CounterView> implements CounterModel.OnCounterUpdated {
 
     private final ThreadNotifier mUiNotifier;
 
-    private CounterView mView;
+    @NonNull
+    private CounterView mView = new DumbView();
     private final CounterModel mModel;
 
     public CounterPresenter(ThreadNotifier uiNotifier, CounterModel model) {
@@ -20,7 +23,7 @@ public class CounterPresenter extends BasePresenter<CounterView> implements Coun
 
     @Override
     public void detachView() {
-        mView = null;
+        mView = new DumbView();
     }
 
     public void increment() {
@@ -32,10 +35,14 @@ public class CounterPresenter extends BasePresenter<CounterView> implements Coun
         mUiNotifier.runOnTargetThread(new Runnable() {
             @Override
             public void run() {
-                if (mView != null) {
-                    mView.setCount(counter);
-                }
+                mView.setCount(counter);
             }
         });
+    }
+
+    private static class DumbView implements CounterView {
+        @Override
+        public void setCount(int count) {
+        }
     }
 }

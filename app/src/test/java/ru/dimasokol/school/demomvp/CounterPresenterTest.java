@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 public class CounterPresenterTest {
@@ -16,7 +17,7 @@ public class CounterPresenterTest {
     public void setUp() throws Exception {
         mModel = mock(CounterModel.class);
         mNotifier = new StubThreadNotifier();
-        mPresenter = new CounterPresenter(mNotifier, mModel);
+        mPresenter = spy(new CounterPresenter(mNotifier, mModel));
     }
 
     @Test

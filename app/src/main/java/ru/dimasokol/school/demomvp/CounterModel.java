@@ -2,20 +2,15 @@ package ru.dimasokol.school.demomvp;
 
 public class CounterModel {
 
-    private static CounterModel sInstance;
-
-    public static CounterModel getInstance() {
-        if (sInstance == null) {
-            sInstance = new CounterModel();
-        }
-
-        return sInstance;
+    public CounterModel(TaskRunner taskRunner) {
+        mTaskRunner = taskRunner;
     }
 
     private int mCounter = 0;
+    private final TaskRunner mTaskRunner;
 
     public void increment(final OnCounterUpdated listener) {
-        new Thread(new Runnable() {
+        mTaskRunner.runTask(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -26,7 +21,7 @@ public class CounterModel {
                 mCounter++;
                 listener.counterUpdated(mCounter);
             }
-        }).start();
+        });
     }
 
     public int getCounter() {
